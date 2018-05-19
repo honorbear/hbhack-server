@@ -14,7 +14,8 @@ namespace :db do
     file = File.read('db/fixtures/products/honestbee.json')
     products = JSON.parse(file)['products']
     products.each do |product_attributes|
-      vendor_product_id = product_attributes.except!('id')
+      vendor_product_id = product_attributes['id']
+      product_attributes.except!('id')
       Product.create(product_attributes.merge(vendor_product_id: vendor_product_id, vendor: 'honestbee'))
     end
   end
