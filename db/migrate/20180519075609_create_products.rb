@@ -1,7 +1,7 @@
 class CreateProducts < ActiveRecord::Migration[5.2]
   def change
     create_table :products do |t|
-      t.integer :hb_id, index: true
+      t.integer :vendor_product_id, index: true
       t.string :vendor, index: true
       t.string :title, index: true
       t.string :description

@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2018_05_19_075609) do
   enable_extension "plpgsql"
 
   create_table "products", force: :cascade do |t|
-    t.integer "hb_id"
+    t.integer "vendor_product_id"
     t.string "vendor"
     t.string "title"
     t.string "description"
@@ -49,12 +49,12 @@ ActiveRecord::Schema.define(version: 2018_05_19_075609) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["amountPerUnit"], name: "index_products_on_amountPerUnit"
-    t.index ["hb_id"], name: "index_products_on_hb_id"
     t.index ["normalPrice"], name: "index_products_on_normalPrice"
     t.index ["packingSize"], name: "index_products_on_packingSize"
     t.index ["price"], name: "index_products_on_price"
     t.index ["title"], name: "index_products_on_title"
     t.index ["vendor"], name: "index_products_on_vendor"
+    t.index ["vendor_product_id"], name: "index_products_on_vendor_product_id"
   end
 
 end
