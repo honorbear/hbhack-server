@@ -1,0 +1,55 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hbhack
+  labels:
+    app: hbhack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hbhack
+  template:
+    metadata:
+      labels:
+        app: hbhack
+    spec:
+      containers:
+        - image: asia.gcr.io/michael-test-1425/hbhack:0.0.1
+          name: hbhack
+          env:
+            - name: RAILS_ENV
+              value: production
+            - name: RAILS_SERVE_STATIC_FILES
+              value: 'true'
+          command:
+            - rails
+            - s
+          volumeMounts:
+            - name: puma
+              mountPath: /usr/src/hbhack/config/puma.rb
+              subPath: puma.rb
+              readOnly: true
+            - mountPath: /tmp
+              name: sock
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
+              name: hbhack
+          volumeMounts:
+            - name: nginx
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+            - mountPath: /tmp
+              name: sock
+      volumes:
+        - name: sock
+          emptyDir: {}
+        - name: nginx
+          configMap:
+            name: nginx
+        - name: puma
+          configMap:
+            name: puma
