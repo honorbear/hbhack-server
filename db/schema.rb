@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2018_05_19_075609) do
 
   create_table "products", force: :cascade do |t|
     t.integer "hb_id"
+    t.string "vendor"
     t.string "title"
     t.string "description"
     t.string "imageUrl"
@@ -53,6 +54,7 @@ ActiveRecord::Schema.define(version: 2018_05_19_075609) do
     t.index ["packingSize"], name: "index_products_on_packingSize"
     t.index ["price"], name: "index_products_on_price"
     t.index ["title"], name: "index_products_on_title"
+    t.index ["vendor"], name: "index_products_on_vendor"
   end
 
 end
