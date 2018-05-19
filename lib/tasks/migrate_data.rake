@@ -7,7 +7,16 @@ namespace :db do
 
   desc 'Migrate honest bee data'
   task migrate_honestbee_data: :environment do
-    fetch_and_create_products(1)
+    # Real API request
+    # fetch_and_create_products(1)
+
+    # Use prefetched data
+    file = File.read('db/fixtures/products/honestbee.json')
+    products = JSON.parse(file)['products']
+    products.each do |product_attributes|
+      vendor_product_id = product_attributes.except!('id')
+      Product.create(product_attributes.merge(vendor_product_id: vendor_product_id))
+    end
   end
 
   def fetch_and_create_products(page)
