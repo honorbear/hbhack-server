@@ -1,6 +1,6 @@
 namespace :db do
   desc 'Migrate all data from every source'
-  task migrate_all: [
+  task migrate_data: [
     :migrate_honestbee_data,
     :migrate_carrefour_data
   ]
@@ -15,7 +15,7 @@ namespace :db do
     products = JSON.parse(file)['products']
     products.each do |product_attributes|
       vendor_product_id = product_attributes.except!('id')
-      Product.create(product_attributes.merge(vendor_product_id: vendor_product_id))
+      Product.create(product_attributes.merge(vendor_product_id: vendor_product_id, vendor: 'honestbee'))
     end
   end
 
