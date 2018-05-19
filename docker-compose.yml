@@ -7,7 +7,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=mysecurepass
       - POSTGRES_DB=hbhack-server_development
-      - PGDATA=/var/lib/postgresql/data
+      - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - "postgres_data:/var/lib/postgresql/data"
 

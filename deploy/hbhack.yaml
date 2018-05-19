@@ -6,18 +6,44 @@ metadata:
     app: hbhack
 spec:
   replicas: 1
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1  
   selector:
     matchLabels:
       app: hbhack
+      tier: backend
   template:
     metadata:
       labels:
         app: hbhack
+        tier: backend
     spec:
       containers:
-        - image: asia.gcr.io/michael-test-1425/hbhack:0.0.1
+        - image: asia.gcr.io/michael-test-1425/hbhack:0.0.2
           name: hbhack
           env:
+            - name: RAILS_LOG_TO_STDOUT
+              value: "true"
+            - name: DATABASE_NAME
+              value: "hbhack-server_production"
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_URL
+              value: "postgres"
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: "db-user"
+                  key: "username"
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "db-user-pass"
+                  key: "password"
             - name: RAILS_ENV
               value: production
             - name: RAILS_SERVE_STATIC_FILES
