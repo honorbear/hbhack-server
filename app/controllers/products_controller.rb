@@ -11,7 +11,8 @@ class ProductsController < ApplicationController
     # }
     @products = params[:products]
     @response_products = @products.map do |product|
-      proposed_products = Product.where('title similar to ?', "%#{product['name']}%").where(vendor: 'honestbee').limit(2)
+      query = "similarity(?, products.title) > ?"
+      proposed_products = Product.where(query, product['name'], 0).where(vendor: 'honestbee').limit(2)
       puts proposed_products[0].title if proposed_products.size > 0
       product.merge(
         proposed_products: proposed_products.map do |proposed_product|
