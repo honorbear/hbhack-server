@@ -6,8 +6,6 @@ services:
     tty: true
     volumes:
       - "hbhack-sync:/usr/src/hbhack:nocopy"
-    ports:
-      - "3000:3000"
 
 volumes:
   hbhack-sync:

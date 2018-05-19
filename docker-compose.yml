@@ -1,35 +1,30 @@
 version: '3'
 
 services:
-  mysql:
-    image: "mysql:5.7.17"
+  postgres:
+    image: postgres:10.3
     environment:
-      MYSQL_ROOT_PASSWORD: ''
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecurepass
+      - POSTGRES_DB=hbhack-server_development
+      - PGDATA=/var/lib/postgresql/data
     volumes:
-      - "mysql_data:/var/lib/mysql"
-
-  redis:
-    image: "redis:3.2-alpine"
-    command: redis-server
-    volumes:
-      - "redis_data:/var/lib/redis/data"
+      - "postgres_data:/var/lib/postgresql/data"
 
   hbhack:
-    depends_on:
-      - "mysql"
-      - "redis"
     environment:
-      REDIS_URL: "redis://redis:6379"
-      MYSQL_HOST: "mysql"
+      - RAILS_ENV=development
+      - DATABASE_URL=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=hbhack-server_development
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=mysecurepass
     image: hbhack
     command: bash
     volumes:
       - ".:/usr/src/hbhack:cached"
-      - "~/.ssh:/root/.ssh:ro"
     ports:
       - "3000:3000"
 
 volumes:
-  mysql_data:
-  redis_data:
+  postgres_data:
