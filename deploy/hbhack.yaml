@@ -23,7 +23,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: asia.gcr.io/michael-test-1425/hbhack:0.0.2
+        - image: asia.gcr.io/michael-test-1425/hbhack:0.0.3
           name: hbhack
           env:
             - name: RAILS_LOG_TO_STDOUT
