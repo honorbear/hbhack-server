@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  mysql:
+    image: "mysql:5.7.17"
+    environment:
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - "mysql_data:/var/lib/mysql"
+
+  redis:
+    image: "redis:3.2-alpine"
+    command: redis-server
+    volumes:
+      - "redis_data:/var/lib/redis/data"
+
+  hbhack:
+    depends_on:
+      - "mysql"
+      - "redis"
+    environment:
+      REDIS_URL: "redis://redis:6379"
+      MYSQL_HOST: "mysql"
+    image: hbhack
+    command: bash
+    volumes:
+      - ".:/usr/src/hbhack:cached"
+      - "~/.ssh:/root/.ssh:ro"
+    ports:
+      - "3000:3000"
+
+volumes:
+  mysql_data:
+  redis_data:
