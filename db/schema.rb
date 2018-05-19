@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_19_075609) do
+ActiveRecord::Schema.define(version: 2018_05_19_114337) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "products", force: :cascade do |t|
@@ -52,7 +53,7 @@ ActiveRecord::Schema.define(version: 2018_05_19_075609) do
     t.index ["normalPrice"], name: "index_products_on_normalPrice"
     t.index ["packingSize"], name: "index_products_on_packingSize"
     t.index ["price"], name: "index_products_on_price"
-    t.index ["title"], name: "index_products_on_title"
+    t.index ["title"], name: "index_products_on_title", opclass: :gist_trgm_ops, using: :gist
     t.index ["vendor"], name: "index_products_on_vendor"
     t.index ["vendor_product_id"], name: "index_products_on_vendor_product_id"
   end
